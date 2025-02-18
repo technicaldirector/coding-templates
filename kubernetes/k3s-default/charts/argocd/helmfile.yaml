@@ -1,0 +1,38 @@
+repositories:
+  - name: argo
+    url: https://argoproj.github.io/argo-helm
+
+releases:
+  - name: argocd
+    chart: argo/argo-cd
+    namespace: argocd
+    createNamespace: true
+    version: 5.46.8
+    values:
+      - ./values.yaml
+    hooks:
+      # Wati until nginx controller is started
+      - events: ["postsync"]
+        command: "kubectl"
+        args: ["wait", "--for=condition=available", "--timeout=600s", "deployment/ingress-nginx-controller", "-n", "ingress-nginx"]
+      # Apply ingress
+      - events: ["postsync"]
+        command: "kubectl"
+        args: ["apply", "-f", "./templates/ingresses/argocd-ingress.yaml"]
+      # Add helmfile configmap and patch deployment
+      - events: ["postsync"]
+        command: "kubectl"
+        args: ["apply", "-f", "./templates/configmaps/helmfile-argocd-configmap.yaml"]
+      - events: ["postsync"]
+        command: "kubectl"
+        args: ["patch", "deployment/argocd-repo-server", "-n", "argocd", "--patch-file", "./templates/deployments/helmfile-argocd-patch-deployment.yaml"]
+      # Apply argocd application
+      - events: ["postsync"]
+        command: "sh"
+        args:
+          - "-c"
+          - "helm template ../root-app | kubectl apply -f -"
+      # Add github secret to argocd
+      - events: ["postsync"]
+        command: "kubectl"
+        args: ["apply", "-f", "./templates/secrets/argocd-secret.yaml"]

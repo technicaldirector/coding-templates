@@ -1,0 +1,23 @@
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: argocd-app
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/technicaldirector/k3s-default.git
+    path: charts/argocd/
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+    # syncOptions:
+    #   - CreateNamespace=true
+    # retry:
+    #   limit: 2
