@@ -1,0 +1,47 @@
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: cloudnative-pg-operator-app
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"  # Set a syncWave value for the operator app
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/technicaldirector/k3s-default.git
+    path: charts/cloudnative-pg-operator/
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-system
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:     
+    - CreateNamespace=true
+    - ServerSideApply=true
+---
+kind: Application
+apiVersion: argoproj.io/v1alpha1
+metadata:
+  name: cloudnative-pg-cluster-app
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"  # Wait for the operator (syncWave "1") before deploying
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/technicaldirector/k3s-default.git
+    path: charts/cloudnative-pg-cluster/
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cnpg-database
+  syncPolicy:
+    automated:
+      selfHeal: true
+---
