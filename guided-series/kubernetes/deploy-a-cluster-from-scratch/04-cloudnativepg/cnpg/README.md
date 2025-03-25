@@ -33,15 +33,16 @@ For more details, check out the [full guide](https://cloudnative-pg.io/documenta
    spec:
      project: default
      source:
-       repoURL: https://github.com/YOUR_USERNAME/YOUR_REPO.git
+       repoURL: https://github.com/technicaldirector/k3s-default.git
     ...
     ---
    ...
    spec:
      project: default
      source:
-       repoURL: https://github.com/YOUR_USERNAME/YOUR_REPO.git
+       repoURL: https://github.com/technicaldirector/k3s-default.git
     ...
+    ---
    ```
 
 ### Install and Configure CloudnativePG

@@ -22,13 +22,26 @@ For more details, check out the [full guide](url).
 1. **Copy the k3s-default-patch content**  
    Copy the `k3s-default-patch` content into your repository which you created in Part 1.
 
-2. **Apply the helmfile**
+2. **Update Repository URLs**  
+   Adjust the repository URLs in your ArgoCD application:
+   
+   ```yaml
+   # charts/root-app/templates/sealed-secrets-app.yaml
+   ...
+   spec:
+     project: default
+     source:
+       repoURL: https://github.com/technicaldirector/k3s-default.git
+    ...
+    ```
+
+3. **Apply the helmfile**
     Start the sealed secrets container using helmfile.
     ```sh
     helmfile -f [path to /charts/sealed-secrets/helmfile.yaml] apply
     ```
 
-3. **Install kubeseal in your CLI**  
+4. **Install kubeseal in your CLI**  
    Install `kubeseal` to encrypt your secrets.
    ```sh
    KUBESEAL_VERSION='0.28.0' # Replace with your desired version
@@ -42,13 +55,13 @@ For more details, check out the [full guide](url).
    curl -sSfL https://github.com/technicaldirector/coding-templates/raw/main/guided-series/kubernetes/02-securly-store-k3s-secrets/assets/install-kubeseal.sh | sudo sh -s -- -b /usr/local/bin
    ```
 
-4. **Encrypt your secret**  
+5. **Encrypt your secret**  
    Use `kubeseal` to encrypt your secret file.
    ```sh
    kubeseal -f charts/argocd/templates/secrets/argocd-secret.yaml -o yaml > charts/argocd/templates/secrets/argocd-secret.yaml
    ```
 
-5. **Push the sealed secret to your repository**  
+6. **Push the sealed secret to your repository**  
    Push the sealed secret to your repository. Argo CD will automatically apply the secret to your cluster.
 
 ---
