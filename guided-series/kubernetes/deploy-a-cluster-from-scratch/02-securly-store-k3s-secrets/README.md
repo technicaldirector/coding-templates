@@ -52,7 +52,7 @@ For more details, check out the [full guide](url).
    
    Or you can directly install the newest version with the correct architecture by using the install script
    ```sh
-   curl -sSfL https://github.com/technicaldirector/coding-templates/raw/main/guided-series/kubernetes/02-securly-store-k3s-secrets/assets/install-kubeseal.sh | sudo sh -s -- -b /usr/local/bin
+   curl -sSfL https://raw.githubusercontent.com/technicaldirector/coding-templates/main/guided-series/kubernetes/deploy-a-cluster-from-scratch/02-securly-store-k3s-secrets/assets/install-kubeseal.sh | sudo sh -s -- -b /usr/local/bin
    ```
 
 5. **Encrypt your secret**  
