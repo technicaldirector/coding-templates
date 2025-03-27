@@ -1,0 +1,28 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: argocd-server-ingress
+  namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  ingressClassName: nginx  # Ensure this matches your Ingress Controller
+  rules:
+  - host: argocd.yourdomain.test
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server  # Match the actual service name
+            port:
+              number: 443  # Ensure the service has this port exposed
+  tls:
+  - hosts:
+    - argocd.yourdomain.test
+    secretName: yourdomain-wildcard-tls
+
+
