@@ -1,0 +1,4 @@
+controller:
+  namespace: ingress-nginx 
+  replicaCount: 2
+  ingressClass: nginx

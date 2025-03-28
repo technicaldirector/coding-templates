@@ -1,0 +1,10 @@
+namespaceOverride: argocd  # Force ArgoCD to live in the `argocd` namespace  
+dex:  
+  enabled: false           # Skip SSO setup (we’ll keep auth simple for now)  
+notifications:  
+  enabled: false           # Mute sync alerts (avoid notification overload)  
+applicationSet:  
+  enabled: false           # Disable multi-app automation (focus on SSL first)  
+server:  
+  rbac:  
+    create: true           # Let ArgoCD manage its own permissions  
