@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx  # Ensure this matches your Ingress Controller
   rules:
-  - host: argocd.yourdomain.test
+  - host: argocd.yourdomain.com
     http:
       paths:
       - path: /

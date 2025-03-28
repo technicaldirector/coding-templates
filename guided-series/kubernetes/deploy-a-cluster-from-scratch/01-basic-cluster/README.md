@@ -36,7 +36,7 @@ For more details, check out the [full guide](url).
    spec:
      ingressClassName: nginx  # Ensure this matches your Ingress Controller
      rules:
-     - host: argocd.yourdomain.test  # Update to your URL
+     - host: argocd.yourdomain.com  # Update to your URL
    ...
    ```
 

@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx  # Ensure this matches your Ingress Controller
   rules:
-  - host: argocd.yourdomain.test
+  - host: argocd.yourdomain.com
     http:
       paths:
       - path: /
@@ -22,7 +22,5 @@ spec:
               number: 443  # Ensure the service has this port exposed
   tls:
   - hosts:
-    - argocd.yourdomain.test
-    secretName: yourdomain-wildcard-tls
-
-
+    - argocd.yourdomain.com
+    secretName: yourdomain-wildcard-tls  # Matches the synced secret!
