@@ -4,7 +4,7 @@ metadata:
   name: cnpg
 helmCharts:
 - name: cloudnative-pg # Chart name
-  namespace: cnpg # Namespace to deploy the chart
+  namespace: cnpg-system # Namespace to deploy the chart
   releaseName: cloudnative-pg-operator # Release name
   repo: https://cloudnative-pg.github.io/charts
   valuesFile: values.yaml
