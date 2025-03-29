@@ -12,3 +12,6 @@ kubectl patch configmap argocd-cm -n argocd --patch '{"data": {"kustomize.buildO
 
 # Install ArgoCD root app
 helm template ./charts/root-app | kubectl apply -f -
+
+# Add argocd secret to the cluster
+kubectl apply -f ./charts/argocd/templates/secrets/argocd-secret.yaml
