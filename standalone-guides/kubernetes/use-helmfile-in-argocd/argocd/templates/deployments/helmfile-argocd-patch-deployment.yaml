@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-repo-server
+  namespace: argocd
+spec:
+  template:
+    spec:
+      containers:
+        - name: helmfile-cmp
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
+          image: ghcr.io/helmfile/helmfile:v0.157.0
+          imagePullPolicy: IfNotPresent
+          command: [/var/run/argocd/argocd-cmp-server]
+          volumeMounts:
+            - mountPath: /var/run/argocd
+              name: var-files
+            - mountPath: /home/argocd/cmp-server/plugins
+              name: plugins
+            - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+              subPath: plugin.yaml
+              name: helmfile-cmp
+            - mountPath: /tmp
+              name: cmp-tmp
+            - mountPath: /helm 
+              name: helm-config
+      volumes:
+        - name: helmfile-cmp
+          configMap:
+            name: helmfile-cmp
+        - name: helm-config
+          emptyDir: {}
+        - name: cmp-tmp
+          emptyDir: {}
