@@ -14,8 +14,9 @@ spec:
         app: nextjs
     spec:
       containers:
-        - name: nextjs
-          image: technicaldirector/nextjs:1
+        - name: nodejs
+          image: technicaldirector/nextjs:1 # Change this to your created dockerhub repo
+          # image: ghcr.io/technicaldirector/nextjs:1 # Change this to your ghcr repo if you use ghcr instead
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 3000
