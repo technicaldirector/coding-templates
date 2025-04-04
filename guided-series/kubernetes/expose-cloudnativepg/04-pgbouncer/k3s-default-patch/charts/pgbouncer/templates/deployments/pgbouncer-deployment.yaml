@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgbouncer
+  namespace: pgbouncer
+  labels:
+    app: pgbouncer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgbouncer
+  template:
+    metadata:
+      labels:
+        app: pgbouncer
+    spec:
+      containers:
+      - name: pgbouncer
+        image: bitnami/pgbouncer:1.24.0
+        ports:
+        - name: pgbouncer
+          containerPort: 6432
+        env:
+          - name: PGBOUNCER_PORT
+            value: "6432"
+          - name: POSTGRESQL_HOST
+            value: "pgpool-service.pgpool.svc.cluster.local"
+          - name: POSTGRESQL_PORT
+            value: "5432"
+          - name: PGBOUNCER_POOL_MODE
+            value: "transaction"  
+          - name: PGBOUNCER_DATABASE
+            value: "app"     
+          - name: POSTGRESQL_USERNAME
+            value: "app"
+          - name: POSTGRESQL_PASSWORD_FILE
+            value: /secrets/postgres-password
+          - name: PGBOUNCER_SET_DATABASE_USER
+            value: "yes"
+          - name: PGBOUNCER_SET_DATABASE_PASSWORD
+            value: "yes"
+        volumeMounts:
+          - name: pgbouncer-secrets
+            mountPath: /secrets
+            readOnly: true
+      volumes:
+        - name: pgbouncer-secrets
+          secret:
+            secretName: pgbouncer-secret

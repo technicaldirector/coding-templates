@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pgpool-config
+  namespace: pgpool
+data:
+  pool_hba.conf: |
+    local    all             all                   trust
+    host     all             app       all         scram-sha-256
+    host     all             all       all         scram-sha-256

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: ingress-nginx
+data:
+  # "5432": cnpg-database/postgresql-cluster-rw:5432 # Forward TCP traffic on port 5432 to the PostgreSQL cluster
+  # "5432": pgpool/pgpool-service:5432 # Forward TCP traffic on port 5432 to the pgpool service which will load balance between the cloudnative PostgreSQL cluster's read-write and read-only instances
+  "6432": pgbouncer/pgbouncer-service:6432 # Forward TCP traffic on port 5432 to the pgbouncer service which will be pooling the pgpool service

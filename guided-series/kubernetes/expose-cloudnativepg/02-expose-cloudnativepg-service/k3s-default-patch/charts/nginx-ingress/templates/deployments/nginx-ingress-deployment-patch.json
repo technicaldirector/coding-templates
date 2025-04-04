@@ -1,0 +1,16 @@
+[
+  {
+      "op": "add",
+      "path": "/spec/template/spec/containers/0/args/-",
+      "value": "--tcp-services-configmap=$(POD_NAMESPACE)/tcp-services"
+  },
+  {
+      "op": "add",
+      "path": "/spec/template/spec/containers/0/ports/-",
+      "value": {
+          "containerPort": 5432,
+          "name": "postgres",
+          "protocol": "TCP"
+      }
+  }
+]
